@@ -1,49 +1,42 @@
 import json
-import boto3
-from datetime import datetime  
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Test_TTN')
+
+# import requests
+
 
 def lambda_handler(event, context):
-    action = event.get("action")
-    item_id = event.get("id")
-    created_id = datetime.utcnow().isoformat()
-    print("Received event:", json.dumps(event, indent=2))
-    print("Test CI/CD Pipeline")
-    if action == "put":
-        item = {
-            "id": item_id,
-            "created_id": created_id,
-            "name": event.get("name"),
-            "age": event.get("age")
-        }
+    """Sample pure Lambda function
 
-        table.put_item(Item=item)
+    Parameters
+    ----------
+    event: dict, required
+        API Gateway Lambda Proxy Input Format
 
-        return {
-            "statusCode": 200,
-            "body": "Item inserted successfully"
-        }
+        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
 
-    elif action == "get":
-        created_id = event.get("created_id")
-        response = table.get_item(
-            Key={"id": item_id,"created_id": created_id}
-        )
+    context: object, required
+        Lambda Context runtime methods and attributes
 
-        if "Item" in response:
-            return {
-                "statusCode": 200,
-                "body": response["Item"]
-            }
-        else:
-            return {
-                "statusCode": 404,
-                "body": "Item not found"
-            }
+        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
 
-    else:
-        return {
-            "statusCode": 400,
-            "body": "Invalid action"
-        }
+    Returns
+    ------
+    API Gateway Lambda Proxy Output Format: dict
+
+        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+    """
+
+    # try:
+    #     ip = requests.get("http://checkip.amazonaws.com/")
+    # except requests.RequestException as e:
+    #     # Send some context about this error to Lambda Logs
+    #     print(e)
+
+    #     raise e
+
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "message": "hello world & welcome to serverless computing! & test CI/CD pipeline",
+            # "location": ip.text.replace("\n", "")
+        }),
+    }

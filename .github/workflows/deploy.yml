@@ -35,5 +35,5 @@ jobs:
     # 5. DEPLOY
     - run: |
         aws lambda update-function-code \
-          --function-name CRUDTest_TTN \
+          --function-name HelloWorldFunction_CI_CD_TTN \
           --zip-file fileb://lambda.zip
